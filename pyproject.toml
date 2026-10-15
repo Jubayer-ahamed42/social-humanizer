@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "social-humanizer"
+version = "0.1.0"
+authors = [
+  { name = "Social-Humanizer Contributors" },
+]
+description = "Universal AI Social Media Humanizer & Content Engine powered by Fabric de-AI philosophy and copywriting architecture."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Communications",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "click>=8.1.0",
+    "rich>=13.0.0",
+    "requests>=2.28.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "textstat>=0.7.3",
+]
+
+[project.scripts]
+social-humanizer = "social_humanizer.cli:main"
+humanizer = "social_humanizer.cli:main"
