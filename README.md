@@ -17,10 +17,10 @@ Every social media platform algorithm in 2025–2026 aggressively demotes roboti
 
 1. **The 50%–80% Outbound Link Penalty**:
    - Posting raw URLs in the post body signals feed algorithms (LinkedIn, Facebook, Threads, X) that you are trying to take users off-platform. The algorithm suppresses organic reach by **50% to 80%**.
-2. **Emoji Bullet Spam**:
-   - Starting lines with hype emojis (`🚀`, `🔥`, `💡`, `🎯`, `✨`) triggers instant AI-text classification, audience ad fatigue, and quick bounce rates.
-3. **Hashtag Stuffing (> 2–3 tags)**:
-   - Modern feeds treat hashtag dumps as spammy reach-farming. Modern best practice: 0–3 targeted tags.
+2. **Emoji Bullet & Stuffing Clutter**:
+   - Starting lines with hype emojis (`🚀`, `🔥`, `💡`, `🎯`, `✨`) or scattering $> 2$ emojis across paragraphs triggers instant AI text classification, audience fatigue, and lower dwell time.
+3. **Hashtag Stuffing (> 2 tags)**:
+   - Modern 2026 feeds demote hashtag dumps as engagement-bait spam. Best practice across all platforms: **Maximum 1–2 targeted tags at the very end (or zero)**.
 4. **The Machine Cadence Monotony**:
    - Standard LLMs write uniform 14–18 word sentences with near-zero sentence length variance ($\text{CV} < 0.25$). Real humans talk in bursts: punchy 2–4 word statements followed by long, conversational thoughts ($\text{CV} \ge 0.45$).
 5. **Cringe AI Clichés (Bilingual EN + BN)**:
@@ -79,14 +79,13 @@ flowchart TD
 ---
 
 ## 📱 Platform Matrix
-
-| Platform | Hard Limit | Formatting Vibe | Primary Algorithm Ranking Metric | Optimal Links | Hashtags |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Facebook** | ~63,000 chars | Conversational 2-3 sentence blocks | Comments & Shares | First comment | 0–1 |
-| **LinkedIn** | 3,000 chars | Skimmable, 1-2 sentence lines | Dwell Time & Meaningful Comments | First comment | 2–3 |
-| **Twitter / X** | 280 chars / post | High-density punchy threads | Retweets & Bookmark Saves | Thread end or reply | 0–1 |
-| **Threads** | 500 chars | Informal, relatable peer chat | Reply Count (Conversations) | Profile bio or reply | 0–1 (native tag) |
-| **Instagram** | 2,200 chars | 125-char hook + clean spacing | Saves & Direct Message Shares | Link in bio | 3–5 targeted |
+| Platform | Hard Limit | Formatting Vibe | Primary Ranking Metric | Optimal Links | Hashtags (End) | Emojis (Total) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Facebook** | ~63,000 chars | Conversational 2-3 sentence blocks | Comments & Shares | First comment | 0–1 tag | 0–2 subtle |
+| **LinkedIn** | 3,000 chars | Skimmable 1-2 sentence lines | Dwell Time & Comments | First comment | 1–2 tags max | 0–2 subtle |
+| **Twitter / X** | 280 chars / post | High-density punchy threads | Retweets & Saves | Thread reply | 0–1 tag | 0–1 subtle |
+| **Threads** | 500 chars | Informal, relatable peer chat | Reply Count | Profile bio / reply | 0–1 topic tag | 0–1 subtle |
+| **Instagram** | 2,200 chars | 125-char hook + clean spacing | Saves & DM Shares | Link in bio | 1–2 tags max | 0–2 subtle |
 
 ---
 
@@ -273,15 +272,19 @@ Run the full test suite with 100% test coverage:
 python -m unittest discover -s tests -p "test_*.py"
 ```
 
-All 36 unit tests verify:
+All 45 unit tests verify:
 - Anti-AI prompt rules across Facebook, LinkedIn, Twitter/X, Threads, and Instagram.
 - Outbound link reach suppression detection (50%–80% warning) including common URL shorteners (bit.ly, lnkd.in, youtu.be).
 - Line-initial and markdown emoji bullet pattern detection.
-- Hashtag stuffing penalties (> 2–3 tags) with protection against pure number false positives (#1, #2).
+- Global emoji count tracking (strict max 1–2 subtle emojis).
+- Strict hashtag limits (max 1–2 tags placed at the very end).
+- Mid-text hashtag detection and warnings.
+- Shannon Vocabulary Entropy ($H$) and Lexical Diversity (Type-Token Ratio, TTR).
+- First 120-character above-the-fold Hook Quality analysis and stop-scroll scoring.
 - Sentence splitting precision across numbered lists and abbreviations.
 - Burstiness variance calculations ($\text{CV} = \sigma / \mu$).
 - Bilingual cliché blacklists (English + Bengali).
-- Rich CLI terminal rendering, piped stdin support, and plain-text fallbacks.
+- Rich CLI terminal rendering, CI/CD `--lint` exit-code enforcement, native OS clipboard copy (`-c` / `--copy`), and piped stdin support.
 - Web Playground REST API endpoints (`/api/evaluate`, `/api/prompt`, `/api/generate`) and offline anti-AI rewrite engine.
 
 ---

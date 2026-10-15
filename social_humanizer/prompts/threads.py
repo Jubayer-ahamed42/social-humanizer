@@ -14,6 +14,7 @@ THREADS_PROMPT = BASE_HUMANIZE_PROMPT + """
    - Keep individual posts punchy and under 500 characters (Meta Threads hard limit).
    - If writing a multi-post thread, keep each post self-contained, high-value, and numbered.
    - Use clean line breaks for breathing room; avoid dense walls of text.
+   - Emojis: Maximum 1 or 2 subtle emojis across the entire post, or zero.
    - Hashtags: Maximum 0 to 1 native topic tag. Never use hashtag blocks or spam.
 3. **Algorithmic Engagement & Reach**:
    - Meta's Threads algorithm prioritizes reply count above all other metrics.

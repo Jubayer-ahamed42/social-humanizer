@@ -199,5 +199,78 @@ class TestMetrics(unittest.TestCase):
         self.assertTrue(any("নিচে" in f for f in flagged))
 
 
+    def test_global_emoji_count_and_excess_penalty(self):
+        from social_humanizer.metrics import extract_emojis
+        # Post with 1-2 subtle emojis (allowed)
+        clean_post = "I tried a new approach to deep work today. It made a noticeable difference. 💡"
+        emojis = extract_emojis(clean_post)
+        self.assertEqual(len(emojis), 1)
+        clean_rep = evaluate_text(clean_post)
+        self.assertEqual(clean_rep.total_emoji_count, 1)
+        self.assertFalse(clean_rep.has_excessive_emojis)
+
+        # Post with 4 scattered emojis (exceeds max 1-2 rule)
+        cluttered_post = "I love coding 🚀 and learning AI 🧠 because it helps us win 🏆 every single day ✨!"
+        cluttered_emojis = extract_emojis(cluttered_post)
+        self.assertEqual(len(cluttered_emojis), 4)
+        cluttered_rep = evaluate_text(cluttered_post)
+        self.assertEqual(cluttered_rep.total_emoji_count, 4)
+        self.assertTrue(cluttered_rep.has_excessive_emojis)
+        self.assertTrue(any("Excessive Emojis" in w.category for w in cluttered_rep.audit.warnings))
+
+    def test_strict_hashtag_limit_max_2(self):
+        # 2 hashtags (allowed limit)
+        valid_post = "Building something new in public.\n\n#buildinpublic #dev"
+        rep_valid = evaluate_text(valid_post)
+        self.assertEqual(rep_valid.hashtag_count, 2)
+        self.assertFalse(rep_valid.has_excessive_hashtags)
+
+        # 3 hashtags (exceeds max 2 rule)
+        spam_post = "Building something new in public.\n\n#buildinpublic #dev #coding"
+        rep_spam = evaluate_text(spam_post)
+        self.assertEqual(rep_spam.hashtag_count, 3)
+        self.assertTrue(rep_spam.has_excessive_hashtags)
+        self.assertTrue(any("Excessive Hashtags" in w.category for w in rep_spam.audit.warnings))
+
+    def test_mid_text_hashtags_flagged(self):
+        # Hashtags embedded inside sentence rather than at end
+        mid_tag_post = "Today we explore #deeplearning methods to understand how models learn from data. It was fascinating."
+        rep = evaluate_text(mid_tag_post)
+        self.assertTrue(rep.has_mid_text_hashtags)
+        self.assertTrue(any("Mid-Text Hashtags" in w.category for w in rep.audit.warnings))
+
+    def test_shannon_entropy_calculation(self):
+        from social_humanizer.metrics import calculate_shannon_entropy
+        # Repetitive words (low entropy)
+        repetitive = ["ai", "ai", "ai", "smart", "smart", "ai"]
+        entropy_low, ttr_low = calculate_shannon_entropy(repetitive)
+        self.assertLess(entropy_low, 2.0)
+
+        # Diverse words (high entropy)
+        diverse = ["building", "thoughtful", "software", "requires", "deep", "focus", "and", "patience"]
+        entropy_high, ttr_high = calculate_shannon_entropy(diverse)
+        self.assertGreater(entropy_high, 2.5)
+        self.assertEqual(ttr_high, 1.0)
+
+    def test_hook_analysis_quality(self):
+        from social_humanizer.metrics import analyze_hook
+        # Strong curiosity & first-person hook
+        strong_text = "I made a critical mistake with our database yesterday that cost us 4 hours. Here is what happened."
+        hook = analyze_hook(strong_text)
+        self.assertGreaterEqual(hook.hook_score, 70.0)
+        self.assertIn(hook.rating, ["Elite Hook", "Strong Hook"])
+        self.assertTrue(hook.has_first_person)
+        self.assertTrue(hook.has_curiosity_trigger)
+
+        # Bad hook with outbound link and cliché
+        bad_text = "In today's fast-paced world, check out https://example.com/blog for details."
+        bad_hook = analyze_hook(bad_text)
+        self.assertLess(bad_hook.hook_score, 40.0)
+        self.assertEqual(bad_hook.rating, "Weak / Scroll-Bypass")
+        self.assertTrue(bad_hook.has_outbound_link)
+        self.assertTrue(bad_hook.has_cliche)
+
+
 if __name__ == "__main__":
     unittest.main()
+

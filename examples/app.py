@@ -588,8 +588,13 @@ HTML_UI = """<!DOCTYPE html>
 
             // Links & Tags
             const linkCount = rep.external_links ? rep.external_links.length : 0;
-            document.getElementById('linksTags').textContent = `${linkCount} link(s) • ${rep.hashtag_count} tag(s)`;
-            document.getElementById('linksTagsDetail').textContent = rep.has_external_links ? '⚠️ Outbound link: Move to 1st comment!' : 'Zero link reach suppression';
+            const emojiCount = rep.total_emoji_count || 0;
+            document.getElementById('linksTags').textContent = `${emojiCount}/2 emojis • ${rep.hashtag_count}/2 tags • ${linkCount} link(s)`;
+            let detail = 'Safe distribution density';
+            if (rep.has_external_links) detail = '⚠️ Outbound link: Move to 1st comment!';
+            else if (rep.has_excessive_emojis) detail = '⚠️ Too many emojis (>2): Demoted as AI clutter';
+            else if (rep.has_excessive_hashtags) detail = '⚠️ Too many hashtags (>2): Reach spam penalty';
+            document.getElementById('linksTagsDetail').textContent = detail;
 
             // Warnings
             const warningsList = document.getElementById('warningsList');
@@ -685,14 +690,21 @@ class PlaygroundHandler(BaseHTTPRequestHandler):
                 "reading_ease": report.reading_ease,
                 "flagged_cliches": report.flagged_cliches,
                 "has_emoji_spam": report.has_emoji_spam,
+                "total_emoji_count": report.total_emoji_count,
+                "has_excessive_emojis": report.has_excessive_emojis,
                 "is_human_sounding": report.is_human_sounding,
                 "recommendations": report.recommendations,
                 "has_external_links": report.has_external_links,
                 "external_links": report.external_links,
                 "hashtag_count": report.hashtag_count,
                 "has_excessive_hashtags": report.has_excessive_hashtags,
+                "has_mid_text_hashtags": report.has_mid_text_hashtags,
                 "algorithm_risk_score": report.algorithm_risk_score,
                 "algorithm_risk_level": report.algorithm_risk_level,
+                "vocabulary_entropy": report.vocabulary_entropy,
+                "lexical_diversity_ttr": report.lexical_diversity_ttr,
+                "estimated_read_time_seconds": report.estimated_read_time_seconds,
+                "hook_analysis": report.hook_analysis.to_dict() if report.hook_analysis else None,
                 "audit": report.audit.to_dict() if report.audit else None,
             }
 
@@ -743,14 +755,21 @@ class PlaygroundHandler(BaseHTTPRequestHandler):
                     "reading_ease": report.reading_ease,
                     "flagged_cliches": report.flagged_cliches,
                     "has_emoji_spam": report.has_emoji_spam,
+                    "total_emoji_count": report.total_emoji_count,
+                    "has_excessive_emojis": report.has_excessive_emojis,
                     "is_human_sounding": report.is_human_sounding,
                     "recommendations": report.recommendations,
                     "has_external_links": report.has_external_links,
                     "external_links": report.external_links,
                     "hashtag_count": report.hashtag_count,
                     "has_excessive_hashtags": report.has_excessive_hashtags,
+                    "has_mid_text_hashtags": report.has_mid_text_hashtags,
                     "algorithm_risk_score": report.algorithm_risk_score,
                     "algorithm_risk_level": report.algorithm_risk_level,
+                    "vocabulary_entropy": report.vocabulary_entropy,
+                    "lexical_diversity_ttr": report.lexical_diversity_ttr,
+                    "estimated_read_time_seconds": report.estimated_read_time_seconds,
+                    "hook_analysis": report.hook_analysis.to_dict() if report.hook_analysis else None,
                     "audit": report.audit.to_dict() if report.audit else None,
                 },
             }

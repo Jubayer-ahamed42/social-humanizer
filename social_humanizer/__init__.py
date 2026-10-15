@@ -11,6 +11,10 @@ from .metrics import (
     AlgorithmAudit,
     AlgorithmWarning,
     audit_algorithm,
+    extract_emojis,
+    calculate_shannon_entropy,
+    analyze_hook,
+    HookAnalysis,
 )
 from .engine import HumanizerEngine, Platform
 
@@ -20,6 +24,11 @@ __all__ = [
     "AlgorithmAudit",
     "AlgorithmWarning",
     "audit_algorithm",
+    "extract_emojis",
+    "calculate_shannon_entropy",
+    "analyze_hook",
+    "HookAnalysis",
     "HumanizerEngine",
     "Platform",
 ]
+

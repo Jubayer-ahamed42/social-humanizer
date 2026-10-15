@@ -51,6 +51,36 @@ def render_burstiness_meter(cv: float) -> str:
         return f"[bold red]{bar}[/bold red] {cv:.2f} (Monotonous AI Pattern)"
 
 
+import subprocess
+import shutil
+
+def copy_to_clipboard(text: str) -> bool:
+    """Copies text to the system clipboard using native OS utilities with zero third-party dependencies."""
+    try:
+        if sys.platform == "win32":
+            proc = subprocess.Popen(["clip"], stdin=subprocess.PIPE, shell=False)
+            proc.communicate(input=text.encode("utf-16le"))
+            return proc.returncode == 0
+        elif sys.platform == "darwin":
+            proc = subprocess.Popen(["pbcopy"], stdin=subprocess.PIPE)
+            proc.communicate(input=text.encode("utf-8"))
+            return proc.returncode == 0
+        else:
+            for tool in ["wl-copy", "xclip", "xsel"]:
+                if shutil.which(tool):
+                    args = [tool]
+                    if tool == "xclip":
+                        args = [tool, "-selection", "clipboard"]
+                    elif tool == "xsel":
+                        args = [tool, "--clipboard", "--input"]
+                    proc = subprocess.Popen(args, stdin=subprocess.PIPE)
+                    proc.communicate(input=text.encode("utf-8"))
+                    return proc.returncode == 0
+    except Exception:
+        pass
+    return False
+
+
 def print_rich_report(report: MetricReport, platform: Optional[str] = None) -> None:
     """Renders a visually stunning terminal report card and algorithmic audit dashboard using Rich."""
     # Determine scorecard theme
@@ -74,9 +104,9 @@ def print_rich_report(report: MetricReport, platform: Optional[str] = None) -> N
 
     # Core Metrics Table
     table = Table(title="📊 [bold]Syntactic, Readability & Distribution Metrics[/bold]", border_style=theme_color, show_lines=True)
-    table.add_column("Metric", style="bold cyan", width=24)
-    table.add_column("Value", style="bold white", width=30)
-    table.add_column("Benchmark Target", style="dim white", width=22)
+    table.add_column("Metric", style="bold cyan", width=25)
+    table.add_column("Value", style="bold white", width=32)
+    table.add_column("Target Benchmark", style="dim white", width=20)
     table.add_column("Status Assessment", width=30)
 
     # 1. Human Score
@@ -88,27 +118,62 @@ def print_rich_report(report: MetricReport, platform: Optional[str] = None) -> N
     burst_status = "[green]High sentence variety[/green]" if report.burstiness_score >= 0.45 else ("[yellow]Moderate variety[/yellow]" if report.burstiness_score >= 0.35 else "[red]Monotonous cadence[/red]")
     table.add_row("Burstiness (Cadence CV)", burst_meter, "CV ≥ 0.45", burst_status)
 
-    # 3. Reading Ease & Level
+    # 3. Vocabulary Entropy & Lexical Diversity (Shannon)
+    entropy_status = "[green]Rich lexical variety[/green]" if report.vocabulary_entropy >= 3.5 else "[yellow]Basic / Repetitive LLM[/yellow]"
+    table.add_row(
+        "Vocabulary Entropy (Shannon)",
+        f"{report.vocabulary_entropy:.2f} bits | TTR: {report.lexical_diversity_ttr:.0%}",
+        "≥ 3.50 bits",
+        entropy_status,
+    )
+
+    # 4. Opening Hook Quality (First 120-140 chars)
+    if report.hook_analysis and report.hook_analysis.rating != "Empty":
+        hook_status = (
+            "[green]Elite stop-scroll pull[/green]"
+            if report.hook_analysis.hook_score >= 80
+            else (
+                "[green]Strong conversational[/green]"
+                if report.hook_analysis.hook_score >= 60
+                else (
+                    "[yellow]Average hook[/yellow]"
+                    if report.hook_analysis.hook_score >= 40
+                    else "[red]Scroll-bypass risk[/red]"
+                )
+            )
+        )
+        table.add_row(
+            "Above-the-Fold Hook",
+            f"{report.hook_analysis.rating} ({report.hook_analysis.hook_score:.0f}/100)",
+            "Score ≥ 60",
+            hook_status,
+        )
+
+    # 5. Reading Ease & Level
     read_status = "[green]Optimal for Social[/green]" if report.reading_ease >= 60 else "[yellow]Dense / Academic[/yellow]"
     table.add_row("Reading Ease (Flesch)", f"{report.reading_ease:.1f} ({report.grade_level})", "60 – 85 (Grade 6-8)", read_status)
 
-    # 4. Word & Sentence Counts
+    # 6. Word & Sentence Counts with Read Time
     table.add_row(
         "Content Structure",
         f"{report.word_count} words | {report.sentence_count} sentences",
         "Varied lengths",
-        f"Avg ~{report.avg_sentence_length:.1f} words/sentence",
+        f"Est. read: ~{report.estimated_read_time_seconds}s (Dwell sweet spot)",
     )
 
-    # 5. Outbound Links
+    # 7. Total Emojis (Max 1-2)
+    emoji_status = "[red]Emoji stuffing clutter[/red]" if report.has_excessive_emojis else ("[red]Emoji bullet spam[/red]" if report.has_emoji_spam else "[green]Tasteful & subtle[/green]")
+    table.add_row("Emoji Density (Global)", f"{report.total_emoji_count} emoji(s)", "0 – 2 max (or 0)", emoji_status)
+
+    # 8. Hashtags (Max 1-2 at end)
+    tag_status = "[red]Hashtag spam penalty[/red]" if report.has_excessive_hashtags else ("[yellow]Mid-text tag penalty[/yellow]" if report.has_mid_text_hashtags else "[green]Clean tag density[/green]")
+    tag_val = f"{report.hashtag_count} tag(s)" if report.hashtag_count > 0 else "0 tags"
+    table.add_row("Hashtag Density", tag_val, "0 – 2 tags at end", tag_status)
+
+    # 9. Outbound Links
     link_status = "[red]High reach suppression (50%-80%)[/red]" if report.has_external_links else "[green]Safe (Zero reach penalty)[/green]"
     link_val = f"{len(report.external_links)} outbound link(s)" if report.has_external_links else "0 links detected"
     table.add_row("Outbound Links (Body)", link_val, "0 in body (use 1st comment)", link_status)
-
-    # 6. Hashtags
-    tag_status = "[red]Hashtag spam penalty[/red]" if report.has_excessive_hashtags else "[green]Healthy tag density[/green]"
-    tag_val = f"{report.hashtag_count} tag(s)" if report.hashtag_count > 0 else "0 tags"
-    table.add_row("Hashtag Density", tag_val, "0 – 3 tags max", tag_status)
 
     console.print(table)
 
@@ -184,6 +249,27 @@ def cmd_score(args) -> None:
     else:
         print_plain_report(report, platform=plat)
 
+    if getattr(args, "copy", False):
+        if copy_to_clipboard(text):
+            if HAS_RICH and console:
+                console.print("\n[bold green]📋 Copied post text to system clipboard![/bold green]")
+            else:
+                print("\nCopied post text to system clipboard!")
+
+    if getattr(args, "lint", False):
+        if not report.is_human_sounding or report.algorithm_risk_score >= 50.0:
+            if HAS_RICH and console:
+                console.print("\n[bold red]✖ LINT FAILED: High algorithmic penalty risks or AI markers detected![/bold red]")
+            else:
+                print("\nLINT FAILED: High algorithmic penalty risks or AI markers detected!")
+            sys.exit(1)
+        else:
+            if HAS_RICH and console:
+                console.print("\n[bold green]✔ LINT PASSED: Clean humanized post ready for publication.[/bold green]")
+            else:
+                print("\nLINT PASSED: Clean humanized post ready for publication.")
+            sys.exit(0)
+
 
 def cmd_prompt(args) -> None:
     platform = Platform(args.platform.lower())
@@ -209,6 +295,13 @@ def cmd_run(args) -> None:
     else:
         print_plain_report(report, platform=platform.value)
 
+    if getattr(args, "copy", False):
+        if copy_to_clipboard(output):
+            if HAS_RICH and console:
+                console.print("\n[bold green]📋 Copied humanized post to system clipboard![/bold green]")
+            else:
+                print("\nCopied humanized post to system clipboard!")
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -226,6 +319,16 @@ def main():
         choices=SUPPORTED_PLATFORMS,
         default=None,
         help="Optional target platform (facebook, linkedin, twitter, threads, instagram) for platform-specific audit",
+    )
+    score_p.add_argument(
+        "--lint",
+        action="store_true",
+        help="CI/CD linter mode: exits with code 1 if algorithmic penalties or AI markers are detected",
+    )
+    score_p.add_argument(
+        "-c", "--copy",
+        action="store_true",
+        help="Copy input text to system clipboard using native OS clipboard",
     )
     score_p.set_defaults(func=cmd_score)
 
@@ -251,6 +354,11 @@ def main():
     run_p.add_argument("--api-base", help="Custom OpenAI-compatible API base URL")
     run_p.add_argument("--api-key", help="API key")
     run_p.add_argument("--model", help="Model name (e.g. llama3, gemini-1.5-flash)")
+    run_p.add_argument(
+        "-c", "--copy",
+        action="store_true",
+        help="Copy generated post to system clipboard using native OS clipboard",
+    )
     run_p.set_defaults(func=cmd_run)
 
     args = parser.parse_args()
@@ -259,3 +367,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

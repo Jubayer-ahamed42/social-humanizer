@@ -88,6 +88,19 @@ class TestPrompts(unittest.TestCase):
         self.assertIn("Save this", ig_post)
         self.assertIn("Link in bio", ig_post)
 
+    def test_rewrite_offline_emoji_and_hashtag_pruning(self):
+        bloated_draft = (
+            "🚀 Elevate your workflow today! 🔥 Build in public 💡 stay humble ✨ achieve greatness! "
+            "Delve into coding. #ai #tech #saas #growth #dev"
+        )
+        output = self.engine.rewrite_offline(bloated_draft, platform=Platform.FACEBOOK)
+        from social_humanizer.metrics import extract_emojis, extract_hashtags
+        emojis = extract_emojis(output)
+        tags = extract_hashtags(output)
+        self.assertLessEqual(len(emojis), 2)
+        self.assertLessEqual(len(tags), 2)
+
 
 if __name__ == "__main__":
     unittest.main()
+

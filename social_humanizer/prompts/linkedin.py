@@ -12,7 +12,8 @@ LINKEDIN_PROMPT = BASE_HUMANIZE_PROMPT + """
 2. **Formatting & Readability**:
    - Skimmable: Keep paragraphs concise (1-2 sentences), but avoid extreme 1-line melodrama across every single line.
    - Clear sections: Use simple text separators or plain numbers (1, 2, 3) instead of emoji bullets.
-   - Hashtags: 2 to 3 targeted, relevant industry hashtags at the very bottom.
+   - Emojis: Maximum 1 or 2 subtle emojis across the entire post, or zero.
+   - Hashtags: Maximum 1 to 2 targeted, relevant industry hashtags at the very bottom (never exceed 2).
 3. **The Hook & Ending**:
    - Hook: First 1-2 lines must hook the reader's curiosity before the "see more" cutoff. Focus on a non-obvious lesson or counter-intuitive experience.
    - Ending: End with an open-ended professional reflection that invites peers to discuss their workflow or experience.

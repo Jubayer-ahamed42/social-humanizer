@@ -9,7 +9,14 @@ import os
 from typing import Dict, Any, Optional, Tuple
 import re
 
-from .metrics import evaluate_text, extract_links, extract_hashtags, MetricReport
+from .metrics import (
+    evaluate_text,
+    extract_links,
+    extract_hashtags,
+    extract_emojis,
+    EMOJI_PATTERN,
+    MetricReport,
+)
 from .prompts.facebook import FACEBOOK_PROMPT
 from .prompts.linkedin import LINKEDIN_PROMPT
 from .prompts.twitter import TWITTER_PROMPT
@@ -120,7 +127,25 @@ class HumanizerEngine:
                 clean_lines.append(line)
         text = "\n".join(clean_lines)
 
-        # 3. Cliché replacement mappings (English and Bengali)
+        # 3. Prune excessive emojis beyond 2 (Global Limit: max 1-2 subtle emojis)
+        emojis_found = extract_emojis(text)
+        if len(emojis_found) > 2:
+            e_count = 0
+            def _filter_emoji(match):
+                nonlocal e_count
+                e_count += 1
+                return match.group(0) if e_count <= 2 else ""
+            text = EMOJI_PATTERN.sub(_filter_emoji, text)
+            text = re.sub(r"[ \t]+", " ", text)
+
+        # 4. Prune excessive hashtags beyond 2 (Global Limit: max 1-2 targeted tags at end)
+        tags_found = extract_hashtags(text)
+        if len(tags_found) > 2:
+            for extra_tag in tags_found[2:]:
+                text = text.replace(extra_tag, "").strip()
+            text = re.sub(r"[ \t]+", " ", text)
+
+        # 5. Cliché replacement mappings (English and Bengali)
         cliche_replacements = [
             (r"\bin today's (?:fast[ -]paced|digital|interconnected|modern) (?:world|landscape|era)\b", "right now", re.IGNORECASE),
             (r"\bfast[ -]paced world\b", "modern work", re.IGNORECASE),
@@ -154,7 +179,7 @@ class HumanizerEngine:
         for pattern, rep, flags in cliche_replacements:
             text = re.sub(pattern, rep, text, flags=flags)
 
-        # 4. Platform formatting & hooks
+        # 6. Platform formatting & hooks
         if plat_val in ("threads", "meta_threads"):
             if not text.endswith("?"):
                 text += "\n\nWhat has been your experience with this?"
@@ -168,8 +193,8 @@ class HumanizerEngine:
             if links:
                 text += "\n🔗 Link in bio!"
             existing_tags = extract_hashtags(text)
-            if len(existing_tags) < 3:
-                text += "\n\n#socialgrowth #buildinpublic #creatorinsights"
+            if len(existing_tags) < 2:
+                text += "\n\n#socialgrowth #buildinpublic"
 
         elif plat_val in ("twitter", "x"):
             if links:

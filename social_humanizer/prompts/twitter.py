@@ -11,7 +11,8 @@ TWITTER_PROMPT = BASE_HUMANIZE_PROMPT + """
 2. **Formatting**:
    - For single tweets: keep under 280 characters with high impact.
    - For threads: number each tweet (1/n, 2/n) and make each tweet stand alone as a valuable thought.
-   - Zero hashtag spam (maximum 0 to 1 hashtag).
+   - Emojis: Maximum 0 to 1 subtle emoji (never emoji bullets).
+   - Hashtags: Maximum 0 to 1 hashtag (never use hashtag dumps).
 3. **The Hook**:
    - A bold, concise statement or observation that stops the fast scroll.
 
