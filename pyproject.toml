@@ -4,16 +4,32 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "social-humanizer"
-version = "0.1.0"
+version = "0.2.0"
 authors = [
   { name = "Social-Humanizer Contributors" },
 ]
-description = "Universal AI Social Media Humanizer & Content Engine powered by Fabric de-AI philosophy and copywriting architecture."
+description = "Universal AI Social Media Humanizer & Algorithmic Risk Auditor for Facebook, LinkedIn, Twitter/X, Threads, and Instagram."
 readme = "README.md"
 requires-python = ">=3.10"
+keywords = [
+    "social-media",
+    "anti-ai",
+    "copywriting",
+    "humanizer",
+    "burstiness",
+    "facebook",
+    "linkedin",
+    "twitter",
+    "threads",
+    "instagram",
+    "algorithm-compliance",
+    "reach-optimization",
+]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Operating System :: OS Independent",
     "Topic :: Communications",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
@@ -29,7 +45,15 @@ dev = [
     "pytest>=7.0.0",
     "textstat>=0.7.3",
 ]
+web = [
+    "gradio>=4.0.0",
+]
 
 [project.scripts]
 social-humanizer = "social_humanizer.cli:main"
 humanizer = "social_humanizer.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["social_humanizer*"]
+exclude = ["demo*", "tests*", "examples*"]

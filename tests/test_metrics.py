@@ -1,5 +1,5 @@
 """
-Unit tests for metrics and text evaluation.
+Unit tests for metrics, algorithmic risk auditing, and text evaluation.
 """
 
 import unittest
@@ -7,6 +7,8 @@ from social_humanizer.metrics import (
     evaluate_text,
     detect_cliches,
     calculate_burstiness,
+    audit_algorithm,
+    AlgorithmAudit,
 )
 
 
@@ -17,11 +19,29 @@ class TestMetrics(unittest.TestCase):
         self.assertTrue(any("delve" in f for f in flagged))
         self.assertTrue(any("game-changer" in f for f in flagged))
 
+    def test_detect_enriched_english_cliches(self):
+        text = "This cutting-edge framework will supercharge your workflow and demystify AI."
+        flagged = detect_cliches(text)
+        self.assertTrue(any("cutting-edge" in f for f in flagged))
+        self.assertTrue(any("supercharge" in f for f in flagged))
+        self.assertTrue(any("demystify" in f for f in flagged))
+
     def test_detect_bengali_cliches(self):
         bengali_ai_text = "আজকের ডিজিটাল বিশ্বে প্রোগ্রামিং শেখার গুরুত্ব অপরিসীম। আসুন জেনে নিই বিস্তারিত।"
         flagged = detect_cliches(bengali_ai_text)
         self.assertTrue(any("ডিজিটাল বিশ্বে" in f for f in flagged))
         self.assertTrue(any("আসুন জেনে নিই" in f for f in flagged))
+
+    def test_detect_enriched_bengali_cliches(self):
+        bengali_text = (
+            "আসুন এক নজরে দেখে নেওয়া যাক আজকের দ্রুত পরিবর্তনশীল বিশ্বে "
+            "সাফল্যের মূল চাবিকাঠি কি। নিচে আলোচনা করা হলো।"
+        )
+        flagged = detect_cliches(bengali_text)
+        self.assertTrue(any("আসুন এক নজরে দেখে নেওয়া যাক" in f for f in flagged))
+        self.assertTrue(any("দ্রুত পরিবর্তনশীল বিশ্বে" in f for f in flagged))
+        self.assertTrue(any("সাফল্যের মূল চাবিকাঠি" in f for f in flagged))
+        self.assertTrue(any("নিচে আলোচনা করা হলো" in f for f in flagged))
 
     def test_burstiness_variance(self):
         # Monotonous sentences (similar length)
@@ -46,6 +66,9 @@ class TestMetrics(unittest.TestCase):
         self.assertGreaterEqual(report.human_score, 70.0)
         self.assertEqual(len(report.flagged_cliches), 0)
         self.assertFalse(report.has_emoji_spam)
+        self.assertFalse(report.has_external_links)
+        self.assertFalse(report.has_excessive_hashtags)
+        self.assertEqual(report.algorithm_risk_level, "Low Risk (Algorithm Friendly)")
 
     def test_robotic_evaluation(self):
         robotic_text = (
@@ -57,6 +80,123 @@ class TestMetrics(unittest.TestCase):
         self.assertLess(report.human_score, 60.0)
         self.assertGreater(len(report.flagged_cliches), 0)
         self.assertTrue(report.has_emoji_spam)
+        self.assertGreater(report.algorithm_risk_score, 30.0)
+
+    def test_outbound_links_audit(self):
+        text_with_link = (
+            "Check out our new open-source release here: https://github.com/hizibizi/social-humanizer. "
+            "It is completely free to use."
+        )
+        report = evaluate_text(text_with_link)
+        self.assertTrue(report.has_external_links)
+        self.assertIn("https://github.com/hizibizi/social-humanizer", report.external_links)
+        self.assertGreater(report.algorithm_risk_score, 20.0)
+        # Check recommendation to move link to first comment
+        self.assertTrue(any("first comment" in rec for rec in report.recommendations))
+
+    def test_emoji_bullet_spam_audit(self):
+        bullet_text = (
+            "Here are the top lessons:\n"
+            "🚀 Build in public\n"
+            "🔥 Ship fast\n"
+            "💡 Listen to users\n"
+            "🎯 Stay focused"
+        )
+        report = evaluate_text(bullet_text)
+        self.assertTrue(report.has_emoji_spam)
+        self.assertTrue(report.audit.has_emoji_bullet_spam)
+        self.assertGreaterEqual(report.audit.emoji_bullet_count, 4)
+        self.assertTrue(any("emoji" in rec.lower() for rec in report.recommendations))
+
+    def test_excessive_hashtags_audit(self):
+        hashtag_text = (
+            "Loving the new social humanizer library! "
+            "#ai #python #machinelearning #coding #tech #innovation"
+        )
+        report = evaluate_text(hashtag_text)
+        self.assertEqual(report.hashtag_count, 6)
+        self.assertTrue(report.has_excessive_hashtags)
+        self.assertTrue(any("hashtags" in rec.lower() for rec in report.recommendations))
+
+    def test_platform_specific_audit_threads(self):
+        long_threads_post = "A" * 550
+        audit = audit_algorithm(long_threads_post, platform="threads")
+        self.assertTrue(any("500-character" in w.message for w in audit.warnings))
+
+    def test_platform_specific_audit_instagram(self):
+        ig_post_with_link = "New blog post out at https://myblog.com/ai-post check it out!"
+        audit = audit_algorithm(ig_post_with_link, platform="instagram")
+        self.assertTrue(any("not clickable" in w.message.lower() for w in audit.warnings))
+
+    def test_audit_to_dict(self):
+        report = evaluate_text("Simple clean post for testing.")
+        d = report.audit.to_dict()
+        self.assertIn("has_external_links", d)
+        self.assertIn("burstiness_cv", d)
+        self.assertIn("risk_score", d)
+        self.assertIn("warnings", d)
+
+    def test_edge_cases(self):
+        # Empty text
+        empty_report = evaluate_text("")
+        self.assertEqual(empty_report.word_count, 0)
+        self.assertEqual(empty_report.sentence_count, 0)
+
+        # Single word
+        word_report = evaluate_text("Greetings")
+        self.assertEqual(word_report.word_count, 1)
+
+        # Bengali text with dari
+        bengali_text = "আমি গতকাল একটি বই পড়েছি। বইটি বেশ চমৎকার ছিল। আপনার পছন্দের বই কোনটি?"
+        b_report = evaluate_text(bengali_text)
+        self.assertEqual(b_report.sentence_count, 3)
+        self.assertGreater(b_report.burstiness_score, 0.0)
+
+
+    def test_numeric_hashtag_not_flagged(self):
+        text_with_numbers = "We rank #1 in support, #2 in speed, and #3 in quality. Real tags: #growth #innovation"
+        report = evaluate_text(text_with_numbers)
+        self.assertEqual(report.hashtag_count, 2)
+        self.assertEqual(report.hashtags, ["#growth", "#innovation"])
+        self.assertFalse(report.has_excessive_hashtags)
+
+    def test_link_shorteners_detected(self):
+        text_with_shorteners = "Check our latest release on bit.ly/social-hub and lnkd.in/demo. Also ai-driven tools."
+        report = evaluate_text(text_with_shorteners)
+        self.assertTrue(report.has_external_links)
+        self.assertTrue(any("bit.ly" in link for link in report.external_links))
+        self.assertTrue(any("lnkd.in" in link for link in report.external_links))
+        # Ensure hyphenated "ai-driven" is not extracted as a link
+        self.assertFalse(any("ai-driven" in link for link in report.external_links))
+
+    def test_sentence_splitting_numbers_and_abbreviations(self):
+        from social_humanizer.metrics import _split_sentences
+        text = "1. First point. 2. Second point. Dr. Smith agreed with i.e. the premise."
+        sentences = _split_sentences(text)
+        self.assertEqual(len(sentences), 3)
+        self.assertEqual(sentences[0], "1. First point.")
+        self.assertEqual(sentences[1], "2. Second point.")
+        self.assertEqual(sentences[2], "Dr. Smith agreed with i.e. the premise.")
+
+    def test_emoji_bullet_spam_markdown(self):
+        markdown_bullets = (
+            "Here is the plan:\n"
+            "- 🚀 Build in public\n"
+            "* 🔥 Ship fast\n"
+            "• 💡 Listen to users"
+        )
+        report = evaluate_text(markdown_bullets)
+        self.assertTrue(report.has_emoji_spam)
+        self.assertGreaterEqual(report.audit.emoji_bullet_count, 3)
+        self.assertTrue(any("3 lines" in w.message for w in report.audit.warnings if w.category == "Emoji Bullet Spam"))
+
+    def test_unhyphenated_and_enriched_cliches(self):
+        text = "This is a game changer and cutting edge technology. নিচে বিস্তারিত আলোচনা করা হলো এবং সফলতার মূল চাবিকাঠি।"
+        flagged = detect_cliches(text)
+        self.assertTrue(any("game changer" in f or "game-changer" in f for f in flagged))
+        self.assertTrue(any("cutting edge" in f or "cutting-edge" in f for f in flagged))
+        self.assertTrue(any("সফলতার" in f or "সাফল্যের" in f for f in flagged))
+        self.assertTrue(any("নিচে" in f for f in flagged))
 
 
 if __name__ == "__main__":
