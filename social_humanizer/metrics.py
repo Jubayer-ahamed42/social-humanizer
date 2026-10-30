@@ -241,7 +241,7 @@ class MetricReport:
     def summary(self) -> str:
         status = "[HUMAN] Human-Sounding" if self.is_human_sounding else "[AI] Robotic / AI-Like"
         lines = [
-            f"Overall Status: {status} (Score: {self.human_score:.1f}/100)",
+            f"Overall Status: {status} (Human Score: {self.human_score:.1f}/100)",
             f"Algorithmic Reach Risk: {self.algorithm_risk_level} (Penalty Risk: {self.algorithm_risk_score:.0f}/100)",
             f"Total Words: {self.word_count} | Sentences: {self.sentence_count} | Est Read: ~{self.estimated_read_time_seconds}s",
             f"Burstiness (Cadence Variance): {self.burstiness_score:.2f} (Target >= 0.45)",

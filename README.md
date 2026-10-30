@@ -4,10 +4,11 @@
 [![Python: 3.10+](https://img.shields.io/badge/python-3.10+-brightgreen.svg)](https://python.org)
 [![Platforms](https://img.shields.io/badge/Platforms-Facebook%20%7C%20LinkedIn%20%7C%20X%20%7C%20Threads%20%7C%20Instagram-purple.svg)](#-platform-matrix)
 [![Anti-AI Compliance](https://img.shields.io/badge/Anti--AI-Burstiness%20%2B%20Clich%C3%A9%20Ban-success.svg)](#-algorithmic-risk-auditor)
+[![Release](https://img.shields.io/badge/Release-v0.2.0-blue.svg)](https://github.com/Jubayer-ahamed42/social-humanizer/releases)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-orange.svg)](http://makeapullrequest.com)
 
 > **Stop sounding like an AI bot. Stop getting crushed by social media feed algorithms.**  
-> `social-humanizer` is a production-grade, open-source Python library, CLI, and Web Playground that strips robotic AI patterns, enforces dynamic sentence burstiness, and audits posts for anti-reach algorithmic traps across **Facebook**, **LinkedIn**, **Twitter/X**, **Threads**, and **Instagram**.
+> `social-humanizer` is a production-grade, open-source Python toolkit, CLI, and Web Playground that strips robotic AI patterns, enforces dynamic sentence burstiness, and audits posts for anti-reach algorithmic traps across **Facebook**, **LinkedIn**, **Twitter/X**, **Threads**, and **Instagram**.
 
 ---
 
@@ -93,10 +94,21 @@ flowchart TD
 
 ### 1. Installation
 
+**Install directly from GitHub via pip:**
 ```bash
-git clone https://github.com/your-username/social-humanizer.git
+pip install git+https://github.com/Jubayer-ahamed42/social-humanizer.git
+```
+
+**Or clone and install locally:**
+```bash
+git clone https://github.com/Jubayer-ahamed42/social-humanizer.git
 cd social-humanizer
 pip install -e .
+```
+
+*For standard non-editable local install:*
+```bash
+pip install .
 ```
 
 *(Note: The core scoring engine and web server run in pure standard Python with zero mandatory dependencies!)*
