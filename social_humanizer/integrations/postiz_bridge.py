@@ -1,6 +1,6 @@
 """
 Postiz (Open-Source Social Media Scheduler) API Bridge.
-Connects with self-hosted or cloud instances of gitroomhq/postiz.
+Connects with self-hosted or cloud instances of gitroomhq/postiz-app.
 """
 
 import os

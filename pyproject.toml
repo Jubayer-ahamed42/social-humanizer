@@ -40,6 +40,12 @@ dependencies = [
     "requests>=2.28.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/Jubayer-ahamed42/social-humanizer"
+Repository = "https://github.com/Jubayer-ahamed42/social-humanizer"
+Releases = "https://github.com/Jubayer-ahamed42/social-humanizer/releases"
+Issues = "https://github.com/Jubayer-ahamed42/social-humanizer/issues"
+
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",

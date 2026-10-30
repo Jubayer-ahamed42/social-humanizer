@@ -272,7 +272,7 @@ payload = engine.build_prompt_payload(
 
 Ready-to-use bridges for social media publishing:
 - **`BufferBridge`**: Integrates with [Buffer](https://buffer.com) (official LinkedIn partner) via `social_humanizer.integrations.BufferBridge`.
-- **`PostizBridge`**: Integrates with [Postiz](https://github.com/gitroomhq/postiz) (the leading open-source scheduler) via `social_humanizer.integrations.PostizBridge`.
+- **`PostizBridge`**: Integrates with [Postiz](https://github.com/gitroomhq/postiz-app) (the leading open-source scheduler) via `social_humanizer.integrations.PostizBridge`.
 
 ---
 
