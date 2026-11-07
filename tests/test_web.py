@@ -35,7 +35,7 @@ class TestWebPlayground(unittest.TestCase):
 
     def test_api_evaluate(self):
         payload = {
-            "text": "[Launch] In today's fast-paced digital world, it is crucial to delve into AI. Read more: https://example.com/ai #tech #ai #dev #innovation",
+            "text": "🚀 In today's fast-paced digital world, it is crucial to delve into AI. Read more: https://example.com/ai #tech #ai #dev #innovation",
             "platform": "threads",
         }
         data = json.dumps(payload).encode("utf-8")
@@ -72,7 +72,7 @@ class TestWebPlayground(unittest.TestCase):
 
     def test_api_generate(self):
         payload = {
-            "draft": "[Launch] Elevate your career! In today's fast-paced digital world, check our tool: https://example.com/tool #ai #tech #startups",
+            "draft": "🚀 Elevate your career! In today's fast-paced digital world, check our tool: https://example.com/tool #ai #tech #startups",
             "platform": "threads",
         }
         data = json.dumps(payload).encode("utf-8")

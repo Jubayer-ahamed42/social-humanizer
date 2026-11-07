@@ -12,10 +12,10 @@ from typing import List, Tuple, Dict, Any, Optional
 # Regex matching Unicode emojis across all major emoji blocks (emoticons, pictographs, dingbats, flags)
 EMOJI_PATTERN = re.compile(
     r"(?:"
-    r"[\U0001F300-\U0001FAFF]|" # Emoticons, Pictographs, Symbols
-    r"[\U0001F1E6-\U0001F1FF]{2}|" # Flag pairs
-    r"[\u2600-\u27BF]|" # Misc symbols, Dingbats
-    r"[\u2300-\u23FF]|" # Misc technical
+    r"[\U0001F300-\U0001FAFF]|"  # Emoticons, Pictographs, Symbols
+    r"[\U0001F1E6-\U0001F1FF]{2}|"  # Flag pairs
+    r"[\u2600-\u27BF]|"          # Misc symbols, Dingbats
+    r"[\u2300-\u23FF]|"          # Misc technical
     r"[\u2B50\u2B55\u2934\u2935\u25AA\u25AB\u25B6\u25C0\u25FB-\u25FE]"
     r")(?:[\uFE00-\uFE0F]|\U0001F3FB|\U0001F3FC|\U0001F3FD|\U0001F3FE|\U0001F3FF)?",
     flags=re.UNICODE,
@@ -119,7 +119,7 @@ HASHTAG_PATTERN = r"(?<![\w#])#([A-Za-z0-9_\u0980-\u09FF]*[A-Za-z_\u0980-\u09FF]
 @dataclass
 class AlgorithmWarning:
     category: str
-    severity: str # "high", "medium", "low"
+    severity: str  # "high", "medium", "low"
     message: str
     recommendation: str
 
@@ -134,8 +134,8 @@ class HookAnalysis:
     has_outbound_link: bool
     has_emoji_bullet: bool
     has_cliche: bool
-    hook_score: float # 0 to 100
-    rating: str # "Elite Hook", "Strong Hook", "Average Hook", "Weak / Scroll-Bypass"
+    hook_score: float  # 0 to 100
+    rating: str  # "Elite Hook", "Strong Hook", "Average Hook", "Weak / Scroll-Bypass"
     feedback: str
 
     def to_dict(self) -> Dict[str, Any]:
@@ -169,8 +169,8 @@ class AlgorithmAudit:
     has_mid_text_hashtags: bool
     burstiness_cv: float
     flagged_cliches: List[str]
-    risk_level: str # "Low Risk (Algorithm Friendly)", "Moderate Risk", "High Algorithmic Penalty Risk"
-    risk_score: float # 0 to 100
+    risk_level: str  # "Low Risk (Algorithm Friendly)", "Moderate Risk", "High Algorithmic Penalty Risk"
+    risk_score: float  # 0 to 100
     warnings: List[AlgorithmWarning]
     recommendations: List[str]
 
@@ -211,8 +211,8 @@ class MetricReport:
     sentence_count: int
     avg_sentence_length: float
     sentence_length_std_dev: float
-    burstiness_score: float # Coefficient of Variation (CV)
-    human_score: float # Normalized 0 - 100
+    burstiness_score: float  # Coefficient of Variation (CV)
+    human_score: float  # Normalized 0 - 100
     grade_level: str
     reading_ease: float
     flagged_cliches: List[str] = field(default_factory=list)
@@ -573,7 +573,7 @@ def audit_algorithm(
                 "by 50%-80% to keep users inside their walled garden."
             ),
             recommendation=(
-                "Move the link to the first comment or bio ('Link in 1st comment [Chat]' or 'Link in bio') "
+                "Move the link to the first comment or bio ('Link in 1st comment 💬' or 'Link in bio') "
                 "to preserve 100% of organic distribution."
             ),
         )
@@ -589,7 +589,7 @@ def audit_algorithm(
             severity="medium",
             message=(
                 f"Line-starting emoji bullets detected{count_str}. "
-                "Modern social algorithms and readers instantly identify bulleted emojis ([Launch], [Hot], [Tip], [Target], ) "
+                "Modern social algorithms and readers instantly identify bulleted emojis (🚀, 🔥, 💡, 🎯, ✨) "
                 "as synthetic ChatGPT formatting, leading to lower dwell time and engagement drop."
             ),
             recommendation=(
@@ -715,7 +715,7 @@ def audit_algorithm(
                 category="Platform Constraint (Instagram)",
                 severity="high",
                 message="URLs are NOT clickable in Instagram captions and degrade readability.",
-                recommendation="Replace link with 'Link in bio [Link]' or direct message trigger ('Comment INFO for link').",
+                recommendation="Replace link with 'Link in bio 🔗' or direct message trigger ('Comment INFO for link').",
             )
             warnings.append(w)
             rec_texts.append(w.recommendation)

@@ -72,9 +72,9 @@ class TestMetrics(unittest.TestCase):
 
     def test_robotic_evaluation(self):
         robotic_text = (
-            "[Launch] Elevate your productivity today! "
+            "🚀 Elevate your productivity today! "
             "In today's fast-paced landscape, we delve into transformative solutions. "
-            "[Hot] Unlock your maximum potential with our game-changer toolkit."
+            "🔥 Unlock your maximum potential with our game-changer toolkit."
         )
         report = evaluate_text(robotic_text)
         self.assertLess(report.human_score, 60.0)
@@ -97,10 +97,10 @@ class TestMetrics(unittest.TestCase):
     def test_emoji_bullet_spam_audit(self):
         bullet_text = (
             "Here are the top lessons:\n"
-            "[Launch] Build in public\n"
-            "[Hot] Ship fast\n"
-            "[Tip] Listen to users\n"
-            "[Target] Stay focused"
+            "🚀 Build in public\n"
+            "🔥 Ship fast\n"
+            "💡 Listen to users\n"
+            "🎯 Stay focused"
         )
         report = evaluate_text(bullet_text)
         self.assertTrue(report.has_emoji_spam)
@@ -181,9 +181,9 @@ class TestMetrics(unittest.TestCase):
     def test_emoji_bullet_spam_markdown(self):
         markdown_bullets = (
             "Here is the plan:\n"
-            "- [Launch] Build in public\n"
-            "* [Hot] Ship fast\n"
-            "• [Tip] Listen to users"
+            "- 🚀 Build in public\n"
+            "* 🔥 Ship fast\n"
+            "• 💡 Listen to users"
         )
         report = evaluate_text(markdown_bullets)
         self.assertTrue(report.has_emoji_spam)
@@ -202,7 +202,7 @@ class TestMetrics(unittest.TestCase):
     def test_global_emoji_count_and_excess_penalty(self):
         from social_humanizer.metrics import extract_emojis
         # Post with 1-2 subtle emojis (allowed)
-        clean_post = "I tried a new approach to deep work today. It made a noticeable difference. [Tip]"
+        clean_post = "I tried a new approach to deep work today. It made a noticeable difference. 💡"
         emojis = extract_emojis(clean_post)
         self.assertEqual(len(emojis), 1)
         clean_rep = evaluate_text(clean_post)
@@ -210,7 +210,7 @@ class TestMetrics(unittest.TestCase):
         self.assertFalse(clean_rep.has_excessive_emojis)
 
         # Post with 4 scattered emojis (exceeds max 1-2 rule)
-        cluttered_post = "I love coding [Launch] and learning AI [Brain] because it helps us win [Award] every single day !"
+        cluttered_post = "I love coding 🚀 and learning AI 🧠 because it helps us win 🏆 every single day ✨!"
         cluttered_emojis = extract_emojis(cluttered_post)
         self.assertEqual(len(cluttered_emojis), 4)
         cluttered_rep = evaluate_text(cluttered_post)

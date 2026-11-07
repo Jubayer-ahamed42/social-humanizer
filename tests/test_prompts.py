@@ -79,7 +79,7 @@ class TestPrompts(unittest.TestCase):
         self.assertEqual(report.algorithm_risk_level, "Low Risk (Algorithm Friendly)")
 
     def test_rewrite_offline_threads_and_instagram(self):
-        robotic = "[Launch] Elevate your workflow today! In today's fast-paced digital world, check our tool: https://example.com/tool #tech"
+        robotic = "🚀 Elevate your workflow today! In today's fast-paced digital world, check our tool: https://example.com/tool #tech"
         threads_post = self.engine.rewrite_offline(robotic, platform=Platform.THREADS)
         self.assertNotIn("https://example.com/tool", threads_post.split("(Full link")[0])
         self.assertLessEqual(len(threads_post), 500)
@@ -90,7 +90,7 @@ class TestPrompts(unittest.TestCase):
 
     def test_rewrite_offline_emoji_and_hashtag_pruning(self):
         bloated_draft = (
-            "[Launch] Elevate your workflow today! [Hot] Build in public [Tip] stay humble achieve greatness! "
+            "🚀 Elevate your workflow today! 🔥 Build in public 💡 stay humble ✨ achieve greatness! "
             "Delve into coding. #ai #tech #saas #growth #dev"
         )
         output = self.engine.rewrite_offline(bloated_draft, platform=Platform.FACEBOOK)

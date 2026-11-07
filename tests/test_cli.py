@@ -36,7 +36,7 @@ class TestCLI(unittest.TestCase):
 
     def test_cli_score_command(self):
         sample = (
-            "[Launch] Elevate your productivity today! In today's fast-paced digital world, "
+            "🚀 Elevate your productivity today! In today's fast-paced digital world, "
             "we delve into tools: https://example.com/tool #tech #ai #saas #future"
         )
         with patch("sys.argv", ["social-humanizer", "score", sample, "-p", "linkedin"]):
@@ -80,7 +80,7 @@ class TestCLI(unittest.TestCase):
 
 
     def test_cli_score_lint_failure(self):
-        spam_text = "[Launch] Elevate your brand in today's fast-paced digital world! https://spam.com #tag1 #tag2 #tag3 #tag4"
+        spam_text = "🚀 Elevate your brand in today's fast-paced digital world! https://spam.com #tag1 #tag2 #tag3 #tag4"
         with patch("sys.argv", ["social-humanizer", "score", spam_text, "--lint"]):
             with patch("sys.stdout", new=io.StringIO()):
                 with self.assertRaises(SystemExit) as cm:
