@@ -14,9 +14,9 @@ if hasattr(sys.stdout, "reconfigure"):
 from social_humanizer.metrics import evaluate_text
 
 SAMPLE_ROBOTIC = """
-🚀 Elevate your brand today! In today's fast-paced digital landscape, it is crucial to delve into revolutionary technologies. 
-💡 Unlock your true potential with our seamless AI platform.
-🔥 Here are 3 key takeaways:
+[Launch] Elevate your brand today! In today's fast-paced digital landscape, it is crucial to delve into revolutionary technologies. 
+[Tip] Unlock your true potential with our seamless AI platform.
+[Hot] Here are 3 key takeaways:
 - Foster deep relationships
 - Maximize your business impact
 - Navigate complex market challenges

@@ -86,24 +86,24 @@ def print_rich_report(report: MetricReport, platform: Optional[str] = None) -> N
     # Determine scorecard theme
     if report.human_score >= 70.0 and report.algorithm_risk_score < 25.0:
         theme_color = "green"
-        status_badge = "[bold white on green]  AUTHENTIC HUMAN • VIRAL-READY  [/bold white on green]"
+        status_badge = "[bold white on green] AUTHENTIC HUMAN • VIRAL-READY [/bold white on green]"
     elif report.human_score >= 50.0 and report.algorithm_risk_score < 60.0:
         theme_color = "yellow"
-        status_badge = "[bold black on yellow]  MODERATE RISK • POLISH NEEDED  [/bold black on yellow]"
+        status_badge = "[bold black on yellow] MODERATE RISK • POLISH NEEDED [/bold black on yellow]"
     else:
         theme_color = "red"
-        status_badge = "[bold white on red]  AI DETECTED • HIGH ALGORITHM PENALTY  [/bold white on red]"
+        status_badge = "[bold white on red] AI DETECTED • HIGH ALGORITHM PENALTY [/bold white on red]"
 
     platform_tag = f" • Platform: [bold cyan]{platform.upper()}[/bold cyan]" if platform else ""
     header_content = (
         f"{status_badge}{platform_tag}\n\n"
-        f"• [bold]Human Score:[/bold] [{theme_color}]{report.human_score:.1f} / 100[/{theme_color}]  "
+        f"• [bold]Human Score:[/bold] [{theme_color}]{report.human_score:.1f} / 100[/{theme_color}] "
         f"• [bold]Algo Penalty Risk:[/bold] [{theme_color}]{report.algorithm_risk_score:.0f} / 100 ({report.algorithm_risk_level})[/{theme_color}]"
     )
-    console.print(Panel(header_content, title="🚀 [bold]Social-Humanizer Quality Dashboard[/bold]", border_style=theme_color))
+    console.print(Panel(header_content, title="[Launch] [bold]Social-Humanizer Quality Dashboard[/bold]", border_style=theme_color))
 
     # Core Metrics Table
-    table = Table(title="📊 [bold]Syntactic, Readability & Distribution Metrics[/bold]", border_style=theme_color, show_lines=True)
+    table = Table(title="[Stats] [bold]Syntactic, Readability & Distribution Metrics[/bold]", border_style=theme_color, show_lines=True)
     table.add_column("Metric", style="bold cyan", width=25)
     table.add_column("Value", style="bold white", width=32)
     table.add_column("Target Benchmark", style="dim white", width=20)
@@ -179,7 +179,7 @@ def print_rich_report(report: MetricReport, platform: Optional[str] = None) -> N
 
     # Algorithmic Auditor Warnings
     if report.audit and report.audit.warnings:
-        warn_table = Table(title="🛡️ [bold red]Algorithmic Risk Auditor Warnings[/bold red]", border_style="red", show_lines=True)
+        warn_table = Table(title="[Shield] [bold red]Algorithmic Risk Auditor Warnings[/bold red]", border_style="red", show_lines=True)
         warn_table.add_column("Category", style="bold yellow", width=22)
         warn_table.add_column("Severity", width=12)
         warn_table.add_column("Algorithmic Impact & Actionable Solution", width=70)
@@ -198,18 +198,18 @@ def print_rich_report(report: MetricReport, platform: Optional[str] = None) -> N
 
     # Flagged Clichés Highlights
     if report.flagged_cliches:
-        badges = "  ".join(f"[bold white on red] ✖ {c} [/bold white on red]" for c in report.flagged_cliches)
+        badges = " ".join(f"[bold white on red] {c} [/bold white on red]" for c in report.flagged_cliches)
         cliche_content = (
             f"[bold]Detected blacklisted AI buzzwords and corporate jargon:[/bold]\n\n"
             f"{badges}\n\n"
             f"[dim]These phrases immediately flag your text to social ranking algorithms and AI detectors. Replace with grounded human language.[/dim]"
         )
-        console.print(Panel(cliche_content, title="🚨 [bold red]Flagged AI Clichés Blacklist[/bold red]", border_style="red"))
+        console.print(Panel(cliche_content, title="[ALERT] [bold red]Flagged AI Clichés Blacklist[/bold red]", border_style="red"))
 
     # Recommendations
     if report.recommendations:
-        recs_formatted = "\n".join(f"[bold green]✔[/bold green] {r}" for r in report.recommendations)
-        console.print(Panel(recs_formatted, title="💡 [bold cyan]Actionable Improvement Plan[/bold cyan]", border_style="cyan"))
+        recs_formatted = "\n".join(f"[bold green][OK][/bold green] {r}" for r in report.recommendations)
+        console.print(Panel(recs_formatted, title="[Tip] [bold cyan]Actionable Improvement Plan[/bold cyan]", border_style="cyan"))
 
 
 def print_plain_report(report: MetricReport, platform: Optional[str] = None) -> None:
@@ -222,7 +222,7 @@ def print_plain_report(report: MetricReport, platform: Optional[str] = None) -> 
         print("\nAlgorithmic Auditor Warnings:")
         for w in report.audit.warnings:
             print(f" [{w.severity.upper()}] {w.category}: {w.message}")
-            print(f"     ↳ Fix: {w.recommendation}")
+            print(f" ↳ Fix: {w.recommendation}")
     print("=" * 65)
 
 
@@ -252,20 +252,20 @@ def cmd_score(args) -> None:
     if getattr(args, "copy", False):
         if copy_to_clipboard(text):
             if HAS_RICH and console:
-                console.print("\n[bold green]📋 Copied post text to system clipboard![/bold green]")
+                console.print("\n[bold green][List] Copied post text to system clipboard![/bold green]")
             else:
                 print("\nCopied post text to system clipboard!")
 
     if getattr(args, "lint", False):
         if not report.is_human_sounding or report.algorithm_risk_score >= 50.0:
             if HAS_RICH and console:
-                console.print("\n[bold red]✖ LINT FAILED: High algorithmic penalty risks or AI markers detected![/bold red]")
+                console.print("\n[bold red] LINT FAILED: High algorithmic penalty risks or AI markers detected![/bold red]")
             else:
                 print("\nLINT FAILED: High algorithmic penalty risks or AI markers detected!")
             sys.exit(1)
         else:
             if HAS_RICH and console:
-                console.print("\n[bold green]✔ LINT PASSED: Clean humanized post ready for publication.[/bold green]")
+                console.print("\n[bold green][OK] LINT PASSED: Clean humanized post ready for publication.[/bold green]")
             else:
                 print("\nLINT PASSED: Clean humanized post ready for publication.")
             sys.exit(0)
@@ -298,7 +298,7 @@ def cmd_run(args) -> None:
     if getattr(args, "copy", False):
         if copy_to_clipboard(output):
             if HAS_RICH and console:
-                console.print("\n[bold green]📋 Copied humanized post to system clipboard![/bold green]")
+                console.print("\n[bold green][List] Copied humanized post to system clipboard![/bold green]")
             else:
                 print("\nCopied humanized post to system clipboard!")
 

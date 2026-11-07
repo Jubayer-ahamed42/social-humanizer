@@ -12,7 +12,7 @@ FACEBOOK_PROMPT = BASE_HUMANIZE_PROMPT + """
 2. **Formatting**:
    - Use natural 2-3 sentence paragraph blocks.
    - Do NOT use LinkedIn-style double-spaced single-sentence lines (Broetry).
-   - Emojis: Maximum 1 or 2 subtle emojis (e.g. 😅 or 🤔) placed naturally at the end, or zero.
+   - Emojis: Maximum 1 or 2 subtle emojis (e.g. or ) placed naturally at the end, or zero.
    - Hashtags: Maximum 0 to 1 natural hashtag (never a cluster of hashtags).
 3. **The Hook & Ending**:
    - Hook: Start with a relatable real-life situation, unexpected thought, or a personal dilemma ("আজকে একটা অদ্ভুত জিনিস খেয়াল করলাম...", "I noticed something strange today...").

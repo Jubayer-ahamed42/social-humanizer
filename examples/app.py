@@ -31,7 +31,7 @@ HTML_UI = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social-Humanizer 🧠✍️ | Anti-AI & Algorithm Compliance Playground</title>
+    <title>Social-Humanizer [Brain][Write] | Anti-AI & Algorithm Compliance Playground</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -340,7 +340,7 @@ HTML_UI = """<!DOCTYPE html>
     <div class="container">
         <header>
             <div class="logo-group">
-                <div class="logo-icon">🧠</div>
+                <div class="logo-icon">[Brain]</div>
                 <div>
                     <h1>Social-Humanizer Playground</h1>
                     <div class="subtitle">Anti-AI Algorithm Risk Auditor & Copywriting Engine (FB, LinkedIn, X, Threads, IG)</div>
@@ -356,39 +356,39 @@ HTML_UI = """<!DOCTYPE html>
             <!-- Left Column: Input & Controls -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">📝 Draft Topic or Post</div>
+                    <div class="card-title">[Note] Draft Topic or Post</div>
                     <span id="charCount" style="font-size: 12px; color: var(--text-dim);">0 chars</span>
                 </div>
 
                 <div class="platform-tabs">
-                    <button class="platform-btn active" onclick="setPlatform('facebook', this)">📘 Facebook</button>
-                    <button class="platform-btn" onclick="setPlatform('linkedin', this)">💼 LinkedIn</button>
-                    <button class="platform-btn" onclick="setPlatform('twitter', this)">🐦 Twitter/X</button>
-                    <button class="platform-btn" onclick="setPlatform('threads', this)">🧵 Threads</button>
-                    <button class="platform-btn" onclick="setPlatform('instagram', this)">📸 Instagram</button>
+                    <button class="platform-btn active" onclick="setPlatform('facebook', this)"> Facebook</button>
+                    <button class="platform-btn" onclick="setPlatform('linkedin', this)"> LinkedIn</button>
+                    <button class="platform-btn" onclick="setPlatform('twitter', this)"> Twitter/X</button>
+                    <button class="platform-btn" onclick="setPlatform('threads', this)">[Thread] Threads</button>
+                    <button class="platform-btn" onclick="setPlatform('instagram', this)">[Photo] Instagram</button>
                 </div>
 
                 <div class="preset-bar">
                     <span style="font-size: 11px; color: var(--text-dim); align-self: center;">Presets:</span>
-                    <button class="preset-btn" onclick="loadPreset('robotic_en')">🤖 Robotic English</button>
+                    <button class="preset-btn" onclick="loadPreset('robotic_en')">[AI] Robotic English</button>
                     <button class="preset-btn" onclick="loadPreset('robotic_bn')">🇧🇩 Cliché Bengali</button>
-                    <button class="preset-btn" onclick="loadPreset('link_penalty')">🔗 Link Penalty</button>
-                    <button class="preset-btn" onclick="loadPreset('human_authentic')">✨ Authentic Post</button>
+                    <button class="preset-btn" onclick="loadPreset('link_penalty')">[Link] Link Penalty</button>
+                    <button class="preset-btn" onclick="loadPreset('human_authentic')"> Authentic Post</button>
                 </div>
 
                 <textarea id="draftInput" placeholder="Paste your social media draft or topic here to evaluate AI presence, cadence burstiness, and algorithmic reach risks..."></textarea>
 
                 <div class="actions-row">
-                    <button class="btn btn-primary" onclick="auditText()">🛡️ Audit & Score Post</button>
-                    <button class="btn btn-primary" style="background: linear-gradient(135deg, #10b981, #059669);" onclick="humanizeText()">✨ Humanize Draft</button>
-                    <button class="btn btn-secondary" onclick="viewSystemPrompt()">📜 View Prompt Blueprint</button>
+                    <button class="btn btn-primary" onclick="auditText()">[Shield] Audit & Score Post</button>
+                    <button class="btn btn-primary" style="background: linear-gradient(135deg, #10b981, #059669);" onclick="humanizeText()"> Humanize Draft</button>
+                    <button class="btn btn-secondary" onclick="viewSystemPrompt()"> View Prompt Blueprint</button>
                 </div>
             </div>
 
             <!-- Right Column: Audit Results -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">📊 Algorithmic Audit & Scores</div>
+                    <div class="card-title">[Stats] Algorithmic Audit & Scores</div>
                     <span id="overallBadge" class="badge">Awaiting text</span>
                 </div>
 
@@ -423,19 +423,19 @@ HTML_UI = """<!DOCTYPE html>
 
                 <!-- Algorithmic Warnings Section -->
                 <div id="warningsSection" style="margin-top: 14px;">
-                    <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--text-dim);">⚠️ ALGORITHMIC FEED WARNINGS</div>
+                    <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--text-dim);">[!] ALGORITHMIC FEED WARNINGS</div>
                     <div id="warningsList" style="font-size: 13px; color: var(--text-dim);">Run an audit to check for reach suppression risks.</div>
                 </div>
 
                 <!-- Flagged Clichés Section -->
                 <div id="clichesSection" style="margin-top: 14px; display: none;">
-                    <div style="font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--danger);">🚨 DETECTED AI CLICHÉS</div>
+                    <div style="font-size: 13px; font-weight: 700; margin-bottom: 6px; color: var(--danger);">[ALERT] DETECTED AI CLICHÉS</div>
                     <div id="clichesList"></div>
                 </div>
 
                 <!-- Actionable Plan -->
                 <div id="recommendationsSection" style="margin-top: 14px; display: none;">
-                    <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--primary);">💡 ACTIONABLE FIXES</div>
+                    <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--primary);">[Tip] ACTIONABLE FIXES</div>
                     <div id="recommendationsList"></div>
                 </div>
 
@@ -443,7 +443,7 @@ HTML_UI = """<!DOCTYPE html>
                 <div id="outputSection" style="margin-top: 16px; display: none;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                         <span id="outputTitle" style="font-size: 13px; font-weight: 700; color: var(--text-dim);">PROMPT BLUEPRINT FOR LLM:</span>
-                        <button class="copy-btn" onclick="copyOutput()">📋 Copy</button>
+                        <button class="copy-btn" onclick="copyOutput()">[List] Copy</button>
                     </div>
                     <div id="outputContent" class="output-box"></div>
                 </div>
@@ -455,7 +455,7 @@ HTML_UI = """<!DOCTYPE html>
         let currentPlatform = 'facebook';
 
         const PRESETS = {
-            robotic_en: "🚀 Elevate your productivity today! In today's fast-paced digital world, it is crucial to delve into transformative technologies. 💡 Unlock your true potential with our seamless AI platform: https://innovate-now.io/start #tech #ai #innovation #future #growth",
+            robotic_en: "[Launch] Elevate your productivity today! In today's fast-paced digital world, it is crucial to delve into transformative technologies. [Tip] Unlock your true potential with our seamless AI platform: https://innovate-now.io/start #tech #ai #innovation #future #growth",
             robotic_bn: "আজকের দ্রুত পরিবর্তনশীল বিশ্বে প্রোগ্রামিং এবং এআই শেখার গুরুত্ব অপরিসীম। আসুন এক নজরে দেখে নেওয়া যাক সফলতার মূল চাবিকাঠি কি কি। নিচে বিস্তারিত আলোচনা করা হলো।",
             link_penalty: "We just published a comprehensive breakdown on mastering social algorithms! Read the full deep-dive article right here: https://social-humanizer.dev/blog/anti-ai-algorithm-tricks",
             human_authentic: "I noticed something strange about software yesterday.\\n\\nComputers are fundamentally dumb.\\n\\nIf you miss a single semicolon, the entire compiler completely gives up and complains. Honestly, who else here has spent half the night debugging only to find a typo?"
@@ -518,7 +518,7 @@ HTML_UI = """<!DOCTYPE html>
                 });
                 const data = await resp.json();
                 document.getElementById('outputSection').style.display = 'block';
-                document.getElementById('outputTitle').textContent = '✨ HUMANIZED OUTPUT:';
+                document.getElementById('outputTitle').textContent = ' HUMANIZED OUTPUT:';
                 document.getElementById('outputContent').textContent = data.output;
                 if (data.report) {
                     renderReport(data.report);
@@ -549,17 +549,17 @@ HTML_UI = """<!DOCTYPE html>
             // Overall Badge
             const badge = document.getElementById('overallBadge');
             if (rep.is_human_sounding && rep.algorithm_risk_score < 25) {
-                badge.textContent = '✅ Authentic Human';
+                badge.textContent = '[OK] Authentic Human';
                 badge.style.background = 'var(--success-bg)';
                 badge.style.color = 'var(--success)';
                 badge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
             } else if (rep.human_score >= 50) {
-                badge.textContent = '⚠️ Polish Needed';
+                badge.textContent = '[!] Polish Needed';
                 badge.style.background = 'var(--warning-bg)';
                 badge.style.color = 'var(--warning)';
                 badge.style.borderColor = 'rgba(245, 158, 11, 0.4)';
             } else {
-                badge.textContent = '🚨 High AI Risk';
+                badge.textContent = '[ALERT] High AI Risk';
                 badge.style.background = 'var(--danger-bg)';
                 badge.style.color = 'var(--danger)';
                 badge.style.borderColor = 'rgba(239, 68, 68, 0.4)';
@@ -591,9 +591,9 @@ HTML_UI = """<!DOCTYPE html>
             const emojiCount = rep.total_emoji_count || 0;
             document.getElementById('linksTags').textContent = `${emojiCount}/2 emojis • ${rep.hashtag_count}/2 tags • ${linkCount} link(s)`;
             let detail = 'Safe distribution density';
-            if (rep.has_external_links) detail = '⚠️ Outbound link: Move to 1st comment!';
-            else if (rep.has_excessive_emojis) detail = '⚠️ Too many emojis (>2): Demoted as AI clutter';
-            else if (rep.has_excessive_hashtags) detail = '⚠️ Too many hashtags (>2): Reach spam penalty';
+            if (rep.has_external_links) detail = '[!] Outbound link: Move to 1st comment!';
+            else if (rep.has_excessive_emojis) detail = '[!] Too many emojis (>2): Demoted as AI clutter';
+            else if (rep.has_excessive_hashtags) detail = '[!] Too many hashtags (>2): Reach spam penalty';
             document.getElementById('linksTagsDetail').textContent = detail;
 
             // Warnings
@@ -608,7 +608,7 @@ HTML_UI = """<!DOCTYPE html>
                     warningsList.appendChild(div);
                 });
             } else {
-                warningsList.innerHTML = '<div style="color: var(--success); font-weight: 600;">✅ Clean! No algorithmic reach suppression flags found.</div>';
+                warningsList.innerHTML = '<div style="color: var(--success); font-weight: 600;">[OK] Clean! No algorithmic reach suppression flags found.</div>';
             }
 
             // Clichés
@@ -616,7 +616,7 @@ HTML_UI = """<!DOCTYPE html>
             const clichesList = document.getElementById('clichesList');
             if (rep.flagged_cliches && rep.flagged_cliches.length > 0) {
                 clichesSec.style.display = 'block';
-                clichesList.innerHTML = rep.flagged_cliches.map(c => `<span class="cliche-tag">✖ ${c}</span>`).join(' ');
+                clichesList.innerHTML = rep.flagged_cliches.map(c => `<span class="cliche-tag"> ${c}</span>`).join(' ');
             } else {
                 clichesSec.style.display = 'none';
             }
@@ -626,7 +626,7 @@ HTML_UI = """<!DOCTYPE html>
             const recList = document.getElementById('recommendationsList');
             if (rep.recommendations && rep.recommendations.length > 0) {
                 recSec.style.display = 'block';
-                recList.innerHTML = rep.recommendations.map(r => `<div class="recommendation-item"><span style="color: var(--primary);">✔</span><span>${r}</span></div>`).join('');
+                recList.innerHTML = rep.recommendations.map(r => `<div class="recommendation-item"><span style="color: var(--primary);">[OK]</span><span>${r}</span></div>`).join('');
             } else {
                 recSec.style.display = 'none';
             }
@@ -797,15 +797,15 @@ def launch_gradio_app(host="127.0.0.1", port=7860):
     def gradio_eval(text, platform):
         report = evaluate_text(text, platform=platform)
         audit_warnings = "\n".join(
-            f"- **[{w.severity.upper()}] {w.category}**: {w.message}\n  *Fix: {w.recommendation}*"
+            f"- **[{w.severity.upper()}] {w.category}**: {w.message}\n *Fix: {w.recommendation}*"
             for w in (report.audit.warnings if report.audit else [])
-        ) or "✅ Clean! Zero algorithmic penalties flagged."
+        ) or "[OK] Clean! Zero algorithmic penalties flagged."
         
         cliches = ", ".join(report.flagged_cliches) or "None"
         recs = "\n".join(f"- {r}" for r in report.recommendations)
 
         summary_md = f"""
-### 📊 Scorecard
+### Scorecard
 - **Human Quality Score**: {report.human_score:.1f} / 100 ({'Passed' if report.is_human_sounding else 'Needs Polish'})
 - **Algorithmic Reach Penalty Risk**: {report.algorithm_risk_score:.0f} / 100 ({report.algorithm_risk_level})
 - **Burstiness (Cadence CV)**: {report.burstiness_score:.2f} (Target ≥ 0.45)
@@ -813,13 +813,13 @@ def launch_gradio_app(host="127.0.0.1", port=7860):
 - **Outbound Links in Body**: {len(report.external_links)}
 - **Hashtags**: {report.hashtag_count}
 
-### 🚨 Detected AI Clichés
+### Detected AI Clichés
 {cliches}
 
-### 🛡️ Algorithmic Risk Warnings
+### Algorithmic Risk Warnings
 {audit_warnings}
 
-### 💡 Improvement Recommendations
+### Improvement Recommendations
 {recs}
 """
         prompt = engine.get_system_prompt(Platform(platform))
@@ -828,16 +828,16 @@ def launch_gradio_app(host="127.0.0.1", port=7860):
     def gradio_humanize(text, platform):
         output, report = engine.generate(text, platform=Platform(platform))
         audit_warnings = "\n".join(
-            f"- **[{w.severity.upper()}] {w.category}**: {w.message}\n  *Fix: {w.recommendation}*"
+            f"- **[{w.severity.upper()}] {w.category}**: {w.message}\n *Fix: {w.recommendation}*"
             for w in (report.audit.warnings if report.audit else [])
-        ) or "✅ Clean! Zero algorithmic penalties flagged."
+        ) or "[OK] Clean! Zero algorithmic penalties flagged."
         summary_md = f"""
-### ✨ Humanized Output
+### Humanized Output
 ```text
 {output}
 ```
 
-### 📊 Humanized Post Scorecard
+### Humanized Post Scorecard
 - **Human Quality Score**: {report.human_score:.1f} / 100 ({'Passed' if report.is_human_sounding else 'Needs Polish'})
 - **Algorithmic Reach Penalty Risk**: {report.algorithm_risk_score:.0f} / 100 ({report.algorithm_risk_level})
 - **Burstiness (Cadence CV)**: {report.burstiness_score:.2f} (Target ≥ 0.45)
@@ -845,13 +845,13 @@ def launch_gradio_app(host="127.0.0.1", port=7860):
 - **Outbound Links in Body**: {len(report.external_links)}
 - **Hashtags**: {report.hashtag_count}
 
-### 🛡️ Algorithmic Risk Warnings
+### Algorithmic Risk Warnings
 {audit_warnings}
 """
         return summary_md, output
 
     with gr.Blocks(title="Social-Humanizer Playground") as demo:
-        gr.Markdown("# 🧠 Social-Humanizer Playground\nUniversal Anti-AI Algorithm Risk Auditor & Copywriting Engine")
+        gr.Markdown("# [Brain] Social-Humanizer Playground\nUniversal Anti-AI Algorithm Risk Auditor & Copywriting Engine")
         with gr.Row():
             with gr.Column():
                 input_text = gr.Textbox(
@@ -865,8 +865,8 @@ def launch_gradio_app(host="127.0.0.1", port=7860):
                     label="Target Platform",
                 )
                 with gr.Row():
-                    audit_btn = gr.Button("🛡️ Audit Draft", variant="primary")
-                    humanize_btn = gr.Button("✨ Humanize Draft", variant="secondary")
+                    audit_btn = gr.Button("[Shield] Audit Draft", variant="primary")
+                    humanize_btn = gr.Button(" Humanize Draft", variant="secondary")
             with gr.Column():
                 results_md = gr.Markdown("### Awaiting input...")
                 prompt_output = gr.Code(label="Platform Blueprint Prompt / Output", language="markdown")
@@ -894,11 +894,11 @@ def run_server(host="127.0.0.1", port=7860, use_gradio=False):
     server_address = (host, port)
     httpd = HTTPServer(server_address, PlaygroundHandler)
     print(f"===============================================================")
-    print(f"🚀 Social-Humanizer Web Playground running at: http://{host}:{port}")
-    print(f"   - Anti-AI Cadence & Cliché Auditor")
-    print(f"   - Reach Suppression Link Checker (50%-80% Demotion Warning)")
-    print(f"   - Multi-Platform Support: FB, LinkedIn, Twitter, Threads, IG")
-    print(f"   - Press Ctrl+C to stop the server.")
+    print(f"[Launch] Social-Humanizer Web Playground running at: http://{host}:{port}")
+    print(f" - Anti-AI Cadence & Cliché Auditor")
+    print(f" - Reach Suppression Link Checker (50%-80% Demotion Warning)")
+    print(f" - Multi-Platform Support: FB, LinkedIn, Twitter, Threads, IG")
+    print(f" - Press Ctrl+C to stop the server.")
     print(f"===============================================================")
     try:
         httpd.serve_forever()

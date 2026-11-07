@@ -19,7 +19,7 @@ INSTAGRAM_PROMPT = BASE_HUMANIZE_PROMPT + """
    - Instagram's algorithm heavily favors **Saves** and **Shares** over casual likes.
    - Include a natural, non-pushy Call-to-Action (CTA) encouraging the reader to save the post for reference or share it with a friend.
 4. **Emoji Usage**:
-   - Emojis may be used tastefully as subtle punctuation (maximum 1 to 2 across the caption, or zero), but NEVER as robotic bullet points (🚀, 🔥, 💡).
+   - Emojis may be used tastefully as subtle punctuation (maximum 1 to 2 across the caption, or zero), but NEVER as robotic bullet points ([Launch], [Hot], [Tip]).
 
 # Goal
 Rewrite the user's input into a compelling, humanized Instagram caption following all guidelines above.

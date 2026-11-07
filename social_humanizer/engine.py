@@ -94,7 +94,7 @@ class HumanizerEngine:
         """
         Pure-Python rule-based anti-AI transformation pipeline:
         - Strips and relocates outbound links to prevent 50%-80% algorithmic reach penalties
-        - Cleans robotic emoji bullets (🚀, 🔥, 💡) into natural conversational text
+        - Cleans robotic emoji bullets ([Launch], [Hot], [Tip]) into natural conversational text
         - Replaces blacklisted AI clichés (English & Bengali) with authentic human equivalents
         - Injects platform-specific hooks, cadence variance, character limits, and engagement CTAs
         """
@@ -118,8 +118,8 @@ class HumanizerEngine:
         bullet_idx = 1
         for line in text.splitlines():
             line_str = line.strip()
-            if re.search(r"^(?:[-*•–—]|\d+[.)])?[\s\t]*[🚀🔥💡🎯✨🌟📌👉⚡💥💎✅🧵📈🧠🤖]\s*", line_str):
-                subbed = re.sub(r"^(?:[-*•–—]|\d+[.)])?[\s\t]*[🚀🔥💡🎯✨🌟📌👉⚡💥💎✅🧵📈🧠🤖]\s*", "", line_str)
+            if re.search(r"^(?:[-*•–—]|\d+[.)])?[\s\t]*[[Launch][Hot][Tip][Target]*[Pin]->[Fast][Boom][Pro][OK][Thread][Trend][Brain][AI]]\s*", line_str):
+                subbed = re.sub(r"^(?:[-*•–—]|\d+[.)])?[\s\t]*[[Launch][Hot][Tip][Target]*[Pin]->[Fast][Boom][Pro][OK][Thread][Trend][Brain][AI]]\s*", "", line_str)
                 if subbed:
                     clean_lines.append(f"{bullet_idx}. {subbed}")
                     bullet_idx += 1
@@ -184,21 +184,21 @@ class HumanizerEngine:
             if not text.endswith("?"):
                 text += "\n\nWhat has been your experience with this?"
             if links:
-                text += f"\n\n(Full link shared in reply below 💬)"
+                text += f"\n\n(Full link shared in reply below [Chat])"
             if len(text) > 490:
                 text = text[:480].rsplit(" ", 1)[0] + "...\n\n(Continued in reply 1/2)"
 
         elif plat_val in ("instagram", "ig"):
-            text += "\n\nSave this for your next project 📌 or send it to a friend."
+            text += "\n\nSave this for your next project [Pin] or send it to a friend."
             if links:
-                text += "\n🔗 Link in bio!"
+                text += "\n[Link] Link in bio!"
             existing_tags = extract_hashtags(text)
             if len(existing_tags) < 2:
                 text += "\n\n#socialgrowth #buildinpublic"
 
         elif plat_val in ("twitter", "x"):
             if links:
-                text += "\n\n(Link in reply below 🧵)"
+                text += "\n\n(Link in reply below [Thread])"
             if len(text) > 280:
                 parts = []
                 cur = ""
@@ -217,13 +217,13 @@ class HumanizerEngine:
                 text += "\n\nCurious to hear your thoughts—how do you approach this in your team?"
             if links:
                 link_list = ", ".join(links[:2])
-                text += f"\n\n💬 P.S. The full link ({link_list}) is in the first comment below to protect reach."
+                text += f"\n\n[Chat] P.S. The full link ({link_list}) is in the first comment below to protect reach."
 
-        else:  # Facebook
+        else: # Facebook
             if not text.endswith("?"):
                 text += "\n\nWhat do you think about this? Let me know your thoughts in the comments."
             if links:
-                text += "\n\n(Link in the first comment below 💬)"
+                text += "\n\n(Link in the first comment below [Chat])"
 
         return text.strip()
 

@@ -1,4 +1,4 @@
-# Social-Humanizer 🧠✍️
+# Social-Humanizer [Brain][Write]
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.10+](https://img.shields.io/badge/python-3.10+-brightgreen.svg)](https://python.org)
@@ -7,19 +7,19 @@
 [![Release](https://img.shields.io/badge/Release-v0.2.0-blue.svg)](https://github.com/Jubayer-ahamed42/social-humanizer/releases)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-orange.svg)](http://makeapullrequest.com)
 
-> **Stop sounding like an AI bot. Stop getting crushed by social media feed algorithms.**  
+> **Stop sounding like an AI bot. Stop getting crushed by social media feed algorithms.** 
 > `social-humanizer` is a production-grade, open-source Python toolkit, CLI, and Web Playground that strips robotic AI patterns, enforces dynamic sentence burstiness, and audits posts for anti-reach algorithmic traps across **Facebook**, **LinkedIn**, **Twitter/X**, **Threads**, and **Instagram**.
 
 ---
 
-## 🌪️ The Problem
+## The Problem
 
 Every social media platform algorithm in 2025–2026 aggressively demotes robotic AI spam:
 
 1. **The 50%–80% Outbound Link Penalty**:
    - Posting raw URLs in the post body signals feed algorithms (LinkedIn, Facebook, Threads, X) that you are trying to take users off-platform. The algorithm suppresses organic reach by **50% to 80%**.
 2. **Emoji Bullet & Stuffing Clutter**:
-   - Starting lines with hype emojis (`🚀`, `🔥`, `💡`, `🎯`, `✨`) or scattering $> 2$ emojis across paragraphs triggers instant AI text classification, audience fatigue, and lower dwell time.
+   - Starting lines with hype emojis (`[Launch]`, `[Hot]`, `[Tip]`, `[Target]`, ``) or scattering $> 2$ emojis across paragraphs triggers instant AI text classification, audience fatigue, and lower dwell time.
 3. **Hashtag Stuffing (> 2 tags)**:
    - Modern 2026 feeds demote hashtag dumps as engagement-bait spam. Best practice across all platforms: **Maximum 1–2 targeted tags at the very end (or zero)**.
 4. **The Machine Cadence Monotony**:
@@ -30,17 +30,17 @@ Every social media platform algorithm in 2025–2026 aggressively demotes roboti
 
 ---
 
-## 💡 The Solution: Social-Humanizer
+## The Solution: Social-Humanizer
 
 `social-humanizer` provides a comprehensive anti-AI suite:
 
 - **Anti-AI Philosophy (Fabric Engine)**: Aggressive cliché filtering, cadence de-monotonizing, modest first-person voice.
 - **Platform-Specific Copywriting Engine**:
-  - 📘 **Facebook**: Relatable community storytelling, 2–3 sentence natural blocks, low-friction curiosity hooks.
-  - 💼 **LinkedIn**: Skimmable high-value insights, zero humblebragging, first-comment link strategy.
-  - 🐦 **Twitter / X**: High-density hooks under 280 characters, structured multi-tweet threads.
-  - 🧵 **Threads**: Casual, community-first banter, under 500 characters, reply-magnet questions (replies = #1 ranking factor), max 1 topic tag.
-  - 📸 **Instagram**: Visual companion captions, 125-character hook before the `... more` fold, Saves & Shares CTAs, "Link in bio" compliance.
+  - **Facebook**: Relatable community storytelling, 2–3 sentence natural blocks, low-friction curiosity hooks.
+  - **LinkedIn**: Skimmable high-value insights, zero humblebragging, first-comment link strategy.
+  - **Twitter / X**: High-density hooks under 280 characters, structured multi-tweet threads.
+  - **Threads**: Casual, community-first banter, under 500 characters, reply-magnet questions (replies = #1 ranking factor), max 1 topic tag.
+  - **Instagram**: Visual companion captions, 125-character hook before the `... more` fold, Saves & Shares CTAs, "Link in bio" compliance.
 - **Algorithmic Risk Auditor**: Deterministic math auditor measuring:
   - Coefficient of Variation for sentence cadence: $\text{CV} = \frac{\sigma}{\mu}$
   - Outbound link detection and reach penalty alerts.
@@ -53,7 +53,7 @@ Every social media platform algorithm in 2025–2026 aggressively demotes roboti
 
 ---
 
-## 🏛️ Architecture
+## Architecture
 
 ```mermaid
 flowchart TD
@@ -79,7 +79,7 @@ flowchart TD
 
 ---
 
-## 📱 Platform Matrix
+## Platform Matrix
 | Platform | Hard Limit | Formatting Vibe | Primary Ranking Metric | Optimal Links | Hashtags (End) | Emojis (Total) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Facebook** | ~63,000 chars | Conversational 2-3 sentence blocks | Comments & Shares | First comment | 0–1 tag | 0–2 subtle |
@@ -90,7 +90,7 @@ flowchart TD
 
 ---
 
-## ⚡ Quickstart
+## Quickstart
 
 ### 1. Installation
 
@@ -151,36 +151,36 @@ python examples/app.py --gradio
 #### Audit and score any post for algorithmic risk:
 
 ```bash
-python -m social_humanizer.cli score "🚀 Elevate your brand today! In today's fast-paced digital world, it is crucial to delve into revolutionary solutions. Check our link: https://example.com/start #ai #tech #saas #future #growth" -p linkedin
+python -m social_humanizer.cli score "[Launch] Elevate your brand today! In today's fast-paced digital world, it is crucial to delve into revolutionary solutions. Check our link: https://example.com/start #ai #tech #saas #future #growth" -p linkedin
 ```
 
 **Rich Output Preview:**
 
 ```text
-┌─────────────────── 🚀 Social-Humanizer Quality Dashboard ───────────────────┐
-│   AI DETECTED • HIGH ALGORITHM PENALTY                                      │
-│                                                                             │
-│ • Human Score: 20.0 / 100  • Algo Penalty Risk: 90 / 100 (High Risk)        │
+┌─────────────────── [Launch] Social-Humanizer Quality Dashboard ───────────────────┐
+│ AI DETECTED • HIGH ALGORITHM PENALTY │
+│ │
+│ • Human Score: 20.0 / 100 • Algo Penalty Risk: 90 / 100 (High Risk) │
 └─────────────────────────────────────────────────────────────────────────────┘
-               📊 Syntactic, Readability & Distribution Metrics                
+               [Stats] Syntactic, Readability & Distribution Metrics 
 ┌────────────────┬──────────────────────┬──────────────┬──────────────────────┐
-│ Metric         │ Value                │ Benchmark    │ Status Assessment    │
+│ Metric │ Value │ Benchmark │ Status Assessment │
 ├────────────────┼──────────────────────┼──────────────┼──────────────────────┤
-│ Human Quality  │ 20.0 / 100           │ ≥ 70.0 pts   │ Critical AI Markers  │
-│ Burstiness     │ ████████░░ 0.42      │ CV ≥ 0.45    │ Moderate variety     │
-│ Outbound Links │ 1 outbound link(s)   │ 0 in body    │ High reach penalty   │
-│ Hashtag Density│ 5 tag(s)             │ 0 – 3 tags   │ Hashtag spam penalty │
+│ Human Quality │ 20.0 / 100 │ ≥ 70.0 pts │ Critical AI Markers │
+│ Burstiness │ ████████░░ 0.42 │ CV ≥ 0.45 │ Moderate variety │
+│ Outbound Links │ 1 outbound link(s) │ 0 in body │ High reach penalty │
+│ Hashtag Density│ 5 tag(s) │ 0 – 3 tags │ Hashtag spam penalty │
 └────────────────┴──────────────────────┴──────────────┴──────────────────────┘
-                     🛡️ Algorithmic Risk Auditor Warnings                      
+                     [Shield] Algorithmic Risk Auditor Warnings 
 ┌────────────┬────────┬───────────────────────────────────────────────────────┐
-│ Category   │Severity│ Algorithmic Impact & Actionable Solution              │
+│ Category │Severity│ Algorithmic Impact & Actionable Solution │
 ├────────────┼────────┼───────────────────────────────────────────────────────┤
-│ Outbound   │ HIGH   │ External link detected in post body. Platforms penal- │
-│ Link       │        │ ize posts with outbound links by 50%-80%.             │
-│            │        │ ↳ Fix: Move link to the first comment or bio.         │
+│ Outbound │ HIGH │ External link detected in post body. Platforms penal- │
+│ Link │ │ ize posts with outbound links by 50%-80%. │
+│ │ │ ↳ Fix: Move link to the first comment or bio. │
 ├────────────┼────────┼───────────────────────────────────────────────────────┤
-│ Emoji Spam │ MEDIUM │ Line-starting emoji bullets detected (🚀, 🔥, 💡).    │
-│            │        │ ↳ Fix: Remove hype emojis; use conversational format. │
+│ Emoji Spam │ MEDIUM │ Line-starting emoji bullets detected ([Launch], [Hot], [Tip]). │
+│ │ │ ↳ Fix: Remove hype emojis; use conversational format. │
 └────────────┴────────┴───────────────────────────────────────────────────────┘
 ```
 
@@ -227,7 +227,7 @@ print(f"Hashtags: {report.hashtag_count}")
 if report.audit.warnings:
     for warning in report.audit.warnings:
         print(f"[{warning.severity.upper()}] {warning.category}: {warning.message}")
-        print(f"  Fix: {warning.recommendation}")
+        print(f" Fix: {warning.recommendation}")
 
 # 3. Generate Humanizer Prompts for any LLM (Ollama, Gemini, Claude, OpenAI)
 engine = HumanizerEngine()
@@ -239,36 +239,36 @@ payload = engine.build_prompt_payload(
 
 ---
 
-## 📊 Before vs. After Showcase
+## Before vs. After Showcase
 
-### ❌ Typical Robotic AI Post:
-> 🚀 **Unleash Your Productivity Today!** 🔥  
-> In today's fast-paced digital world, it is crucial to delve into revolutionary technologies. 💡  
-> Here are 3 vital takeaways:  
-> 🎯 Foster seamless team alignment  
-> 🎯 Supercharge your daily output  
-> 🎯 Navigate complex market challenges  
-> Check out the full tool here: https://mycompany.com/tool 👇  
-> `#AI #Productivity #Innovation #Tech #Future #Success`  
->  
-> *⚠️ Algorithm Score: 15/100 | Reach Suppressed by ~75% due to outbound link & hashtag stuffing.*
+### Typical Robotic AI Post:
+> [Launch] **Unleash Your Productivity Today!** [Hot] 
+> In today's fast-paced digital world, it is crucial to delve into revolutionary technologies. [Tip] 
+> Here are 3 vital takeaways: 
+> [Target] Foster seamless team alignment 
+> [Target] Supercharge your daily output 
+> [Target] Navigate complex market challenges 
+> Check out the full tool here: https://mycompany.com/tool v 
+> `#AI #Productivity #Innovation #Tech #Future #Success` 
+> 
+> *[!] Algorithm Score: 15/100 | Reach Suppressed by ~75% due to outbound link & hashtag stuffing.*
 
-### ✅ Humanized Authentic Post (`Platform.THREADS`):
-> I spent three days testing every popular "productivity" app on the internet.  
->  
-> Most of them just give you new places to type to-do lists you will still ignore.  
->  
-> The only tool that actually helped? A plain physical notebook and turning off notifications for 3 hours.  
->  
-> What is one productivity tool you secretly regret paying for?  
->  
-> *(Link to my exact notebook setup in the replies below 💬)*  
->  
-> *✅ Algorithm Score: 92/100 | High Reply Velocity & Zero Link Penalty.*
+### Humanized Authentic Post (`Platform.THREADS`):
+> I spent three days testing every popular "productivity" app on the internet. 
+> 
+> Most of them just give you new places to type to-do lists you will still ignore. 
+> 
+> The only tool that actually helped? A plain physical notebook and turning off notifications for 3 hours. 
+> 
+> What is one productivity tool you secretly regret paying for? 
+> 
+> *(Link to my exact notebook setup in the replies below [Chat])* 
+> 
+> *[OK] Algorithm Score: 92/100 | High Reply Velocity & Zero Link Penalty.*
 
 ---
 
-## 🔌 Schedulers & Bridges
+## Schedulers & Bridges
 
 Ready-to-use bridges for social media publishing:
 - **`BufferBridge`**: Integrates with [Buffer](https://buffer.com) (official LinkedIn partner) via `social_humanizer.integrations.BufferBridge`.
@@ -276,7 +276,7 @@ Ready-to-use bridges for social media publishing:
 
 ---
 
-## 🧪 Running Tests
+## Running Tests
 
 Run the full test suite with 100% test coverage:
 
@@ -301,12 +301,12 @@ All 45 unit tests verify:
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please check out our [LICENSE](LICENSE) (MIT) and feel free to submit issues or pull requests.
 
 ---
 
-## 📜 License
+## License
 
 Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
